@@ -1,0 +1,52 @@
+---
+- name: "Install Comodo Antivirus"
+  hosts: all
+  become: yes
+
+  vars:
+    - rhel_like_dir : 'comodo/rhel7+_centos7+/'
+    - rhel_like_installer : 'itsm_FKpStWKJ_ccsl_installer.run'
+    - debian_like_dir : 'comodo/ubuntu16_debian9/'
+    - debian_like_installer : 'itsm_8fRoFSob_ccsl_installer.run'
+    - dest_dir : '/tmp/'
+    - dependencies: ["curl"]
+
+  tasks:
+    - name: "Install Dependencies on Red Hat like systems"
+      yum: 
+        name: "{{ dependencies }}"
+        state: present
+      when: (ansible_facts['os_family'] == "RedHat")
+
+    - name: Run "apt-get update"
+      apt:
+        update_cache: yes
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: "Install Dependencies on Debian systems"
+      apt:
+        name: "{{ dependencies }}"
+        state: present
+      when: (ansible_facts['os_family'] == "Debian")
+
+    - name: "Copy installer to RedHat7+ like systems"
+      copy:
+        src: "{{ rhel_like_dir + rhel_like_installer }}"
+        dest: "{{ dest_dir }}"
+        mode: '0700'
+      when: ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] | int >= 7
+
+    - name: "Copy installer to Debian9+ and Ubuntu16.04+ like systems"
+      copy:
+        src: "{{ debian_like_dir + debian_like_installer }}"
+        dest: "{{ dest_dir }}"
+        mode: '0700'
+      when: ansible_facts['os_family'] == "Debian" and ansible_facts['distribution_major_version'] | int >= 9
+
+    - name: "Install Comodo on Red Hat like Systems"
+      shell: "{{ dest_dir + rhel_like_installer }}"
+      when: ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] | int >= 7
+
+    - name: "Install Comodo on Debian Like Systems"
+      shell: "{{ dest_dir + debian_like_installer }}"
+      when: ansible_facts['os_family'] == "Debian" and ansible_facts['distribution_major_version'] | int >= 9

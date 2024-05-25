@@ -1,0 +1,7 @@
+---
+- name: ldap Linux Inegration
+  hosts: all
+  become: yes
+
+  roles:
+    - ldap_linux_integration

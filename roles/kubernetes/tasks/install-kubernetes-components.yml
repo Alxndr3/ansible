@@ -1,0 +1,26 @@
+---
+- name: Add Kubernetes Remycompanytory
+  shell: |
+          cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+          [kubernetes]
+          name=Kubernetes
+          baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+          enabled=1
+          gpgcheck=1
+          gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+          exclude=kubelet kubeadm kubectl
+          EOF
+
+- name: Install Kubelet Kubeadm Kubectl
+  shell: dnf install -y "{{ item }}" --disableexcludes=kubernetes
+  loop: "{{ packages_k8s }}"
+
+- name: Lock Kubernetes Version
+  shell: dnf versionlock add "{{ item }}"
+  loop: "{{ packages_k8s }}"
+
+- name: Start/Enable Kubelet
+  service: 
+    name: kubelet
+    state: started
+    enabled: true 

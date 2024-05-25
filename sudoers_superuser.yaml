@@ -1,0 +1,14 @@
+---
+- name: "Setup sudoers file for specific user"
+  hosts: all
+  become: true
+  vars:
+    - username: 'mysuperuser'
+
+  tasks:
+    - name: "Allow the {{ username }} user to run any command"
+      community.general.sudoers:
+        name: "{{ username }}"
+        state: present
+        user: "{{ username }}"
+        commands: All

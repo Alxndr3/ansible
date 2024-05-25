@@ -1,0 +1,12 @@
+---
+- name: Copy Join config file to Master Node.
+  template:
+    dest: /etc/kubernetes/join-master.yml
+    src: join-master.yaml.j2
+  when: inventory_hostname in groups['masters']
+
+- name: Copy Join config file to Worker Node.
+  template:
+    dest: /etc/kubernetes/init.yaml
+    src: join-worker.yaml.j2
+  when: inventory_hostname in groups['workers']

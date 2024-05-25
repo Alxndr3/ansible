@@ -1,0 +1,10 @@
+---
+# tasks file for kubernetes
+- import_tasks: config-system.yml
+- import_tasks: install-dependencies.yml
+- import_tasks: install-containerd.yml
+- import_tasks: install-kubernetes-components.yml
+- import_tasks: config-kubelet.yml
+- import_tasks: deploy-controlplane.yml
+- import_tasks: install-calico.yml
+- import_tasks: deploy-masters-workers.yml

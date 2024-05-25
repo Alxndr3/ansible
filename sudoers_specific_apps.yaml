@@ -1,0 +1,61 @@
+---
+- name: "Setup sudoers file for specific user"
+  hosts: all
+  become: true
+  vars:
+    - username: 'dbaude'
+
+  tasks:
+    - name: "Allow the {{ username }} user to run upt-get update and upgrade"
+      community.general.sudoers:
+        name: "{{ username }}"
+        state: present
+        user: "{{ username }}"
+        commands:
+          - /usr/bin/apt-get update
+          - /usr/bin/apt-get upgrade
+          - /usr/bin/rpm -ivh Nessus--es6.x86_64.rpm
+          - /usr/bin/rpm -e NessusAgent
+          - /opt/nessus_agent/sbin/nessuscli
+          - /usr/bin/bash agent_installer.sh *
+          - /usr/bin/systemctl start nessusagent
+          - /usr/bin/systemctl stop nessusagent
+          - /usr/bin/systemctl reboot
+          - /usr/bin/bash itsm_nFMQY0lv_ccsl_installer.run
+          - /usr/bin/chmod u+x itsm_nFMQY0lv_ccsl_installer.run
+          - /usr/bin/vim /etc/httpd/conf/httpd.conf
+          - /usr/bin/vim /usr/bin/etc/nginx/nginx.conf
+          - /usr/bin/vim /usr/bin/etc/ssh/sshd_config
+          - /usr/bin/vim /usr/bin/etc/httpd/conf.d/ssl.conf
+          - /usr/bin/vim /usr/bin/usr/local/apache2/conf/extra/httpd-ssl.conf
+          - /usr/bin/vim /usr/bin/etc/samba/smb.conf
+          - /usr/bin/find / -type f -name log4j*.
+          - /usr/bin/systemctl restart ssh
+      when: (ansible_facts['os_family'] == "Debian")
+
+    - name: "Allow the {{ username }} user to run yum update"
+      community.general.sudoers:
+        name: "{{ username }}"
+        state: present
+        user: "{{ username }}"
+        commands:
+          - /usr/bin/yum check-update
+          - /usr/bin/yum update
+          - /usr/bin/rpm -ivh Nessus--es6.x86_64.rpm
+          - /usr/bin/rpm -e NessusAgent
+          - /opt/nessus_agent/sbin/nessuscli
+          - /usr/bin/bash agent_installer.sh *
+          - /usr/bin/systemctl start nessusagent
+          - /usr/bin/systemctl stop nessusagent
+          - /usr/bin/systemctl reboot
+          - /usr/bin/bash itsm_nFMQY0lv_ccsl_installer.run
+          - /usr/bin/chmod u+x itsm_nFMQY0lv_ccsl_installer.run
+          - /usr/bin/vim /etc/httpd/conf/httpd.conf
+          - /usr/bin/vim /usr/bin/etc/nginx/nginx.conf
+          - /usr/bin/vim /usr/bin/etc/ssh/sshd_config
+          - /usr/bin/vim /usr/bin/etc/httpd/conf.d/ssl.conf
+          - /usr/bin/vim /usr/bin/usr/local/apache2/conf/extra/httpd-ssl.conf
+          - /usr/bin/vim /usr/bin/etc/samba/smb.conf
+          - /usr/bin/find / -type f -name log4j*.
+          - /usr/bin/systemctl restart ssh
+      when: (ansible_facts['os_family'] == "RedHat")

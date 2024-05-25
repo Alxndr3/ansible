@@ -1,0 +1,34 @@
+---
+- name: Install kubectl
+  hosts: all
+  become: yes
+  vars:
+    - packages_utils: ["epel-release", "python3-dnf-plugin-versionlock", "wget", "vim", "open-vm-tools", "bash-completion", "python3", "net-tools", "yum-utils", "iproute-tc"]
+    - packages_k8s: ["kubectl"]
+
+  tasks:
+            
+  - name: Install Utilities
+    yum: 
+      name: "{{ packages_utils }}"
+      state: present
+
+  - name: Add Kubernetes Remycompanytory
+    shell: |
+            cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+            [kubernetes]
+            name=Kubernetes
+            baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+            enabled=1
+            gpgcheck=1
+            gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+            exclude=kubelet kubeadm kubectl
+            EOF
+
+  - name: Install Kubectl
+    shell: dnf install -y "{{ item }}" --disableexcludes=kubernetes
+    loop: "{{ packages_k8s }}"
+
+  - name: Lock Kubernetes Version
+    shell: dnf versionlock add "{{ item }}"
+    loop: "{{ packages_k8s }}"

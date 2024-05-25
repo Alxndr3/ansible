@@ -1,0 +1,6 @@
+---
+- name: Copy Init config file to Controlplane.
+  template:
+    dest: /etc/kubernetes/init.yaml
+    src: init.yaml.j2
+  when: inventory_hostname in groups['controlplane']

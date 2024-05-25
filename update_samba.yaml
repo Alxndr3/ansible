@@ -1,0 +1,18 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+
+    - name: "Samba update CentOS 7"
+      yum: 
+        disable_gpg_check: yes
+        name: samba*
+        state: latest
+        update_only: yes
+      when: (ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "7")
+
+
+
+
+

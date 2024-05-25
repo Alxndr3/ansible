@@ -1,0 +1,7 @@
+---
+vcenter_hostname: "ntnxvcenter.mycompany.corp"
+vcenter_username: "a60803@mycompany.corp"
+vcenter_password: "minha_senha123"
+vcenter_validate_certs: false
+datacenter_name: "DC-MYCOMPANY-JB"
+guest_name: "CJBLVK8STESTE-CONTROLPLANE"

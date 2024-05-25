@@ -1,0 +1,13 @@
+---
+- name: Install Zabbix Agent
+  hosts: all
+  become: yes
+
+  tasks:
+    - debug:
+      msg: Starting Zabbix agent Installation
+
+    - name: Install Zabbix Agent
+      include_role:
+        name: zabbix-agent
+

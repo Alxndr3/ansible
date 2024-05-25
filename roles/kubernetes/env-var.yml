@@ -1,0 +1,14 @@
+---
+- name: Prepare Init/Join config file. 
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Add role environment variable to the remote node.
+      debug:
+      when: inventory_hostname in groups['controlplane']
+
+
+      
+
+

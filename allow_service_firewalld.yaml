@@ -1,0 +1,19 @@
+---
+- name: "Allow service on Firewalld"
+  hosts: all
+  become: yes
+  vars:
+    service_name: 
+      - "http" 
+      - "https"
+      - "zabbix-agent"
+  tasks:
+    - name: Permit traffic in default zone for "{{ service_name }}" service.
+      ansible.mycompanyx.firewalld:
+        service: "{{ item }}"
+        permanent: yes
+        state: enabled
+        immediate: true
+      loop: "{{ service_name }}"
+      when: (ansible_facts['os_family'] == "RedHat") 
+

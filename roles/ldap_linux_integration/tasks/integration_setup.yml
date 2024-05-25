@@ -1,0 +1,23 @@
+---
+- name: Join Machine to the domain
+  shell: echo "{{ password }}" | realm join mycompany.corp -U {{ username }}@MYCOMPANY.CORP
+
+- name: Ensure sssd.conf root ownership
+  ansible.builtin.file:
+    path: /etc/sssd/sssd.conf
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Enable home dir creation
+  shell: pam-auth-update --enable mkhomedir
+  when: (ansible_facts['os_family'] == "Debian")
+
+- name: Enable groups allowed to connect to the server
+  shell: |
+    realm deny --all
+    realm permit --realm=MYCOMPANY.CORP --groups 'G_SEC_LINUX_ADMINS'
+    realm permit --realm=MYCOMPANY.CORP --groups 'G_SEC_LINUX_USERS'
+
+- name: Obfuscate user's password
+  shell: echo "{{ obfuscate_password }}" | sss_obfuscate -s --domain MYCOMPANY.CORP

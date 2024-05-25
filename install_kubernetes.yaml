@@ -1,0 +1,122 @@
+---
+- name: Install Kubernetes
+  hosts: all
+  become: yes
+  vars:
+    - packages_utils: ["epel-release", "python3-dnf-plugin-versionlock", "wget", "vim", "open-vm-tools", "bash-completion", "python3", "net-tools", "yum-utils", "iproute-tc"]
+    - packages_k8s: ["kubelet", "kubeadm", "kubectl"]
+    - containerd: ["containerd"]
+
+  tasks:
+  - name: Copy Prompt
+    copy:
+      src: "./mycompany.sh"
+      dest: "/etc/profile.d/mycompany.sh"
+            
+  - name: Disable SELinux
+    ansible.mycompanyx.selinux:
+      state: disabled
+
+  - name: Disable SWAP
+    shell: |
+      swapoff -a
+
+  - name: Disable SWAP in fstab
+    replace:
+      path: /etc/fstab
+      regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+      replace: '# \1'
+        
+  - name: Stop Firewalld 
+    service: 
+      name: firewalld
+      state: stopped
+      enabled: no
+
+  - name: Create containerd config file
+    file:
+      path: "/etc/modules-load.d/containerd.conf"
+      state: "touch"
+
+  - name: Add conf for containerd
+    blockinfile:
+      path: "/etc/modules-load.d/containerd.conf"
+      block: |
+            overlay
+            br_netfilter
+
+  - name: modprobe
+    shell: |
+            sudo modprobe overlay
+            sudo modprobe br_netfilter
+
+  - name: Set system configurations for Kubernetes networking
+    file:
+      path: "/etc/sysctl.d/99-kubernetes-cri.conf"
+      state: "touch"
+
+  - name: Add conf for containerd
+    blockinfile:
+      path: "/etc/sysctl.d/99-kubernetes-cri.conf"
+      block: |
+             net.bridge.bridge-nf-call-iptables = 1
+             net.ipv4.ip_forward = 1
+             net.bridge.bridge-nf-call-ip6tables = 1
+
+  - name: Apply new settings
+    command: sudo sysctl --system
+
+  - name: Install Utilities
+    yum: 
+      name: "{{ packages_utils }}"
+      state: present
+
+  - name: Add Containerd remycompanytory
+    command: |
+              yum-config-manager \
+              --add-repo \
+              https://download.docker.com/linux/centos/docker-ce.repo
+
+  - name: Install Containerd
+    yum: 
+      name: containerd.io
+      state: present
+
+  - name: Config containerd
+    shell: containerd config default | sudo tee /etc/containerd/config.toml
+
+  - name: Start/Enable Containerd
+    service: 
+      name: containerd
+      state: restarted
+      enabled: yes
+
+  - name: Add Kubernetes Remycompanytory
+    shell: |
+            cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+            [kubernetes]
+            name=Kubernetes
+            baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+            enabled=1
+            gpgcheck=1
+            gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+            exclude=kubelet kubeadm kubectl
+            EOF
+
+  - name: Install Kubelet Kubeadm Kubectl
+    shell: dnf install -y "{{ item }}" --disableexcludes=kubernetes
+    loop: "{{ packages_k8s }}"
+
+  - name: Lock Kubernetes Version
+    shell: dnf versionlock add "{{ item }}"
+    loop: "{{ packages_k8s }}"
+
+  - name: Start/Enable Kubelet
+    service: 
+      name: kubelet
+      state: started
+      enabled: yes
+
+      #- name: Deploy Kubernetes Controlplane
+      #  shell: kubeadm init --config /etc/kubernetes/init.yaml 
+      #  become: yes

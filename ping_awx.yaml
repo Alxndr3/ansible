@@ -1,0 +1,25 @@
+---
+- hosts: all
+  tasks:
+    - name: Pingando o servidor AWX
+      shell: ping -c 5 10.20.120.252
+    - name: Pingando o servidor AWX
+      shell: ping -c 5 10.20.120.3
+    - name: Pingando o servidor AWX
+      shell: ping -c 5 10.20.120.3
+    - name: Pingando o servidor AWX
+      shell: ping -c 5 10.20.120.19
+    - name: Pingando o servidor AWX
+      shell: ping -c 5 10.20.120.19
+    - name: Pingando o servidor AWX
+      shell: ping -c 5 10.20.120.16
+    - name: Pingando o servidor AWX
+      shell: ping -c 5 10.20.120.16
+    - name: Pingando o servidor AWX
+      shell: ping -c 5 10.81.120.61
+    - name: Pingando o servidor AWX
+      shell: ping -c 5 10.81.120.61
+    - name: Pingando o servidor AWX
+      shell: ping -c 5 10.81.120.61
+    - name: Pingando o servidor AWX
+      shell: ping -c 5 10.81.120.61

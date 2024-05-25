@@ -1,0 +1,8 @@
+---
+vcenter_hostname: "vcenter.example.com"
+vcenter_username: "username@example.com"
+vcenter_password: "minha_senha123"
+vcenter_validate_certs: false
+datacenter_name: "DC-EXAMPLE-JB"
+guest_name:
+  - "GUESTDISPLAYNAME"

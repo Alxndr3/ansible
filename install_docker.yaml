@@ -1,0 +1,78 @@
+---
+- name: Install Docker
+  hosts: all
+  become: yes
+  vars:
+    - app_install: ["docker-ce", "docker-ce-cli", "containerd.io", "docker-compose-plugin"]
+    - deb_dep: ["ca-certificates", "curl", "gnupg", "lsb-release"]
+    - docker_debian_install: ["docker-ce", "docker-ce-cli", "containerd.io", "docker-buildx-plugin", "docker-compose-plugin"]
+
+  tasks:
+    - name: Add Remycompanytory - Rocky
+      shell: dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+      when: (ansible_facts['distribution'] == "Rocky")
+
+    - name: Update System - Rocky
+      shell: dnf update
+      when: (ansible_facts['distribution'] == "Rocky")
+
+    - name: Install Packages - Rocky
+      dnf:
+        name: "{{ app_install }}"
+        state: present
+      when: ansible_facts['distribution'] == "Rocky"
+      
+    - name: Update System - Debian
+      shell: apt update
+      when: ansible_facts['distribution'] == "Debian"
+
+    - name: Install Dependencies - Debian
+      apt:
+        name: "{{ deb_dep }}"
+        state: present
+      when: ansible_facts['distribution'] == "Debian"
+
+    - name: Add GPG Key
+      apt_key:
+        url: https://download.docker.com/linux/debian/gpg 
+        state: present
+      when: ansible_facts['distribution'] == "Debian"
+
+    - name: Get distribution release
+      command: awk -F '[()"]' '/VERSION=/{print $3}' /etc/os-release
+      register: release_result
+      when: ansible_facts['distribution'] == "Debian"
+
+    - name: Add specified remycompanytory into sources list
+      apt_remycompanytory:
+        repo: deb https://download.docker.com/linux/debian bookworm stable
+        state: present
+      when: ansible_facts['distribution'] == "Debian"
+
+    - name: Update System - Debian
+      shell: apt update
+      when: ansible_facts['distribution'] == "Debian"
+
+    - name: Install Docker - Debian
+      apt:
+        name: "{{ docker_debian_install }}"
+        state: present
+      when: ansible_facts['distribution'] == "Debian"
+      
+    - name: Start/Enable service
+      service: 
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add inframycompanytec to docker group
+      user:
+        name: inframycompanytec
+        groups: docker
+        append: yes
+
+    #- name: Install docker compose completion
+    #  shell: >
+    #    curl 
+    #    -L https://raw.githubusercontent.com/docker/compose/v2.5.0/contrib/completion/bash/docker-compose 
+    #    -o /etc/bash_completion.d/docker-compose

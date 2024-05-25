@@ -1,0 +1,21 @@
+---
+- name: Install Kubernetes
+  hosts: all
+  become: yes
+  vars:
+    - packages_utils: ["python3-dnf-plugin-versionlock", "wget", "vim", "open-vm-tools", "bash-completion", "python3", "net-tools", "yum-utils", "epel-release"]
+    - packages_k8s: ["kubelet-1.24.2", "kubeadm-1.24.2", "kubectl-1.24.2"]
+    - containerd: ["containerd"]
+    
+
+  tasks:
+
+  - name: Lock Kubernetes Version
+    shell: dnf versionlock add "{{ item }}"
+    loop: "{{ packages_k8s }}"
+
+  - name: Start/Enable Kubelet
+    service: 
+      name: kubelet
+      state: started
+      enabled: yes

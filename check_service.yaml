@@ -1,0 +1,17 @@
+- name: Check if service exists
+  hosts: all
+  become: true
+  gather_facts: false
+  vars:
+    - service_name: ir_agent
+  tasks:
+    - name: Check if service is running
+      service:
+        name: '{{ service_name }}'
+        state: started
+      register: service_status
+
+    - name: Print service status
+      debug:
+        msg: " {{ service_status.name }} {{ service_status.state }}"
+        #msg: "Service {{ service_status | json_query('service.name') }} is {{ service_status | json_query('service.state') }}"

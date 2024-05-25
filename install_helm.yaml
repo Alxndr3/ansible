@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: no
+  vars: 
+    url: https://get.helm.sh/helm-v3.11.2-linux-amd64.tar.gz
+  tasks:
+    - name: Install Helm
+      shell: cd /tmp && wget "{{ url }}" && tar -xzvf helm-v3.11.2-linux-amd64.tar.gz && mv /tmp/linux-amd64/helm /usr/local/bin/ && chmod +x /usr/local/bin/helm

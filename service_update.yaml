@@ -1,0 +1,17 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+
+    - name: ""
+      yum: 
+        disable_gpg_check: yes
+        name: samba*
+        state: latest
+        update_only: yes
+
+
+
+
+

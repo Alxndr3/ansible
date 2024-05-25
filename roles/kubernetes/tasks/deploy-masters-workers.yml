@@ -1,0 +1,124 @@
+---
+- name: Upload certificates
+  shell: kubeadm init phase upload-certs --upload-certs
+  register: certificate_raw
+  tags:
+    - token
+  when: inventory_hostname in groups['controlplane']
+
+- name: set certificate
+  set_fact:
+    certificate: "{{ certificate_raw }}"
+  tags:
+    - token
+  when: inventory_hostname in groups['controlplane']
+
+- name: Generate bootstrap token and certificate key
+  shell: kubeadm token create --print-join-command
+  register: join_command_raw
+  tags:
+    - token
+  when: inventory_hostname in groups['controlplane']
+
+- name: Set join command
+  set_fact:
+    bootstrap_token: "{{ join_command_raw.stdout_lines[0] }}"
+  tags:
+    - token
+  when: inventory_hostname in groups['controlplane']
+
+- name: Set bootstrap token and certificate key
+  set_fact:
+    bootstrap_token: "{{ join_command_raw.stdout_lines[0].split()[4] }}"
+    certificate_key: "{{ certificate_raw.stdout.split('\n')[2] }}"
+  tags:
+    - token
+    - cert
+  when: inventory_hostname in groups['controlplane']
+
+- name: print certificate
+  debug:
+    msg:
+      - "{{ join_command_raw.stdout_lines[0].split()[4] }}"
+      - "{{ certificate_raw.stdout.split('\n')[2] }}"
+  tags:
+    - token
+  when: inventory_hostname in groups['controlplane']
+
+- name: Copy Join config file to Master nodes
+  vars:
+    bootstrap_token: "{{ hostvars[groups['controlplane'][0]]['bootstrap_token'] }}"
+    certificate_key: "{{ hostvars[groups['controlplane'][0]]['certificate_key'] }}"
+  template:
+    dest: /etc/kubernetes/join-master.yaml
+    src: join-master.yaml.j2
+  tags:
+    - token
+  when: inventory_hostname in groups['masters']
+
+- name: Copy Join config file to Worker nodes
+  vars:
+    bootstrap_token: "{{ hostvars[groups['controlplane'][0]]['bootstrap_token'] }}"
+  template:
+    dest: /etc/kubernetes/join-worker.yaml
+    src: join-worker.yaml.j2
+  tags:
+    - token
+  when: inventory_hostname in groups['workers']
+
+- name: Deploy Kubernetes Master Node
+  shell: kubeadm join --config /etc/kubernetes/join-master.yaml
+  become: yes
+  tags:
+    - token
+  when: inventory_hostname in groups['masters']
+
+- name: Deploy Kubernetes Worker Node
+  shell: kubeadm join --config /etc/kubernetes/join-worker.yaml
+  become: yes
+  tags:
+    - token
+  when: inventory_hostname in groups['workers']
+
+- name: Create .kube directory
+  file:
+    path: "/root/.kube"
+    state: directory
+    owner: root
+    mode: 0755
+  tags:
+    - directory
+    - master
+  when: inventory_hostname in groups['masters']
+
+- name: Create .kube directory
+  file:
+    path: "/home/{{ kubectl_user }}/.kube"
+    state: directory
+    owner: "{{ kubectl_user }}"
+    mode: 0755
+  tags:
+    - directory
+    - master
+  when: inventory_hostname in groups['masters']
+
+- name: Copy admin.conf to user kube config to root user
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /root/.kube/config
+    remote_src: yes
+  tags:
+    - directory
+    - master
+  when: inventory_hostname in groups['masters']
+
+- name: Copy admin.conf to user kube config
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: "/home/{{ kubectl_user }}/.kube/config"
+    owner: "{{ kubectl_user }}"
+    remote_src: yes
+  tags:
+    - directory
+    - master
+  when: inventory_hostname in groups['masters']

@@ -1,0 +1,48 @@
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+bootstrapTokens:
+localAPIEndpoint:
+  advertiseAddress: 10.70.120.183
+  bindPort: 6443
+nodeRegistration:
+  criSocket: unix:///var/run/containerd/containerd.sock
+  imagePullPolicy: IfNotPresent
+  name: linvk8smst1-qa
+  taints: null
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+clusterName: mao-qa
+controlPlaneEndpoint: linvk8sproxy-qa:6443
+imageRemycompanytory: registry.k8s.io
+kubernetesVersion: 1.26.2
+networking:
+  dnsDomain: cluster.local
+  serviceSubnet: 172.16.0.0/16
+apiServer:
+  extraArgs:
+    authorization-mode: Node,RBAC
+    cloud-config: /etc/kubernetes/.vsphere.conf
+    cloud-provider: vsphere
+  extraVolumes:
+  - hostPath: /etc/kubernetes/.vsphere.conf
+    mountPath: /etc/kubernetes/.vsphere.conf
+    name: cloud
+  timeoutForControlPlane: 4m0s
+controllerManager:
+  extraArgs:
+    cloud-config: /etc/kubernetes/.vsphere.conf
+    cloud-provider: vsphere
+  extraVolumes:
+  - hostPath: /etc/kubernetes/.vsphere.conf
+    mountPath: /etc/kubernetes/.vsphere.conf
+    name: cloud
+dns: {}
+certificatesDir: /etc/kubernetes/pki
+etcd:
+  local:
+    dataDir: /var/lib/etcd
+---
+kind: KubeletConfiguration
+apiVersion: kubelet.config.k8s.io/v1beta1
+cgroupDriver: systemd

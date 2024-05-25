@@ -1,0 +1,7 @@
+---
+# defaults file for ldap_linux_integration
+yum_install: ["sssd", "sssd-ad", "adcli", "realmd", "oddjob", "oddjob-mkhomedir", "samba-common-tools", "sssd-tools"]
+apt_install: ["realmd", "sssd", "sssd-tools", "libnss-sss", "libpam-sss", "adcli", "samba-common-bin", "oddjob", "oddjob-mkhomedir", "packagekit",]
+username: "a60803"
+password: "minha_senha123"
+obfuscate_password: "minha_senha123"

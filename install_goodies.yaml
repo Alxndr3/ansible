@@ -1,0 +1,39 @@
+---
+- name: Install Goodies
+  hosts: all
+  become: yes
+  vars:
+    - app_install: ["sudo", "tmux", "wget", "vim", "open-vm-tools", "bash-completion", "python3", "net-tools"]
+    - app_install_redhat: ["epel-release", "tmux", "wget", "vim", "open-vm-tools", "bash-completion", "python3", "python3-dnf", "net-tools"]
+
+  pre_tasks:
+    - name: Update apt-get repo and cache
+      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+      when: (ansible_facts['os_family'] == "Debian")
+      
+  tasks:
+    - name: Install Goodies on Red Hat like systems
+      yum: 
+        name: "{{ app_install_redhat }}"
+        state: present
+      when: (ansible_facts['os_family'] == "RedHat")
+
+    - name: Install Goodies on Debian systems
+      apt:
+        name: "{{ app_install }}"
+        state: present
+      when: (ansible_facts['os_family'] == "Debian")
+
+    - name: Start/Enable service on Red Hat
+      service: 
+        name: vmtoolsd
+        state: started
+        enabled: yes
+      when: (ansible_facts['os_family'] == "RedHat")
+      
+    - name: Start/Enable service on Debian
+      service: 
+        name: open-vm-tools
+        state: started
+        enabled: yes
+      when: (ansible_facts['os_family'] == "Debian")

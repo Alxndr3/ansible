@@ -1,0 +1,18 @@
+---
+- name: "Copy Files"
+  hosts: all
+  become: yes
+  vars:
+    #destine: "/etc/kubernetes/"
+    #source_file: "./vsphere.conf"
+    destine: "/etc/profile.d/"
+    source_file: "./mycompany.sh"
+    #destine: "/etc/zabbix"
+    #source_file: "./zabbix/zabbix_agentd.conf"
+  tasks:
+    - name: Copying "{{ source_file }}" to "{{ destine }}"... 
+      copy:
+        src: "{{ item }}"
+        dest: "{{ destine }}"
+      loop:
+        - "{{ source_file }}"

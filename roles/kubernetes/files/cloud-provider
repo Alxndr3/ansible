@@ -1,0 +1,1 @@
+ --cloud-provider=vsphere --cloud-config=/etc/kubernetes/vsphere.conf

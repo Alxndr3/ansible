@@ -1,0 +1,25 @@
+---
+- name: Copy Prompt
+  copy:
+    src: "./mycompany.sh"
+    dest: "/etc/profile.d/mycompany.sh"
+          
+- name: Disable SELinux
+  ansible.mycompanyx.selinux:
+    state: disabled
+
+- name: Disable SWAP
+  shell: |
+    swapoff -a
+
+- name: Disable SWAP in fstab
+  replace:
+    path: /etc/fstab
+    regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+    replace: '# \1'
+      
+- name: Stop Firewalld 
+  service: 
+    name: firewalld
+    state: stopped
+    enabled: no

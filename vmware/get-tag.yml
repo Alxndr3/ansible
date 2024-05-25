@@ -1,0 +1,23 @@
+---
+- name: Shutdown VMs with specific tag
+  hosts: localhost
+  gather_facts: no
+
+  pre_tasks:
+    - include_vars: vars_ntnx.yml
+
+  tasks:
+    - name: Find VMs with tag
+      vmware_tag:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        folder: "/{{ datacenter_name }}"
+        datacenter: "{{ datacenter_name }}"
+        name: "{{ vm_tag }}"
+      register: vm_tags
+
+  #- debug:
+    #  var: vm_tags
+
+

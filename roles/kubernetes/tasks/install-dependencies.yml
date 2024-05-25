@@ -1,0 +1,14 @@
+---
+- name: Install Dependencies
+  yum: 
+    name: "{{ item }}"
+    state: present
+  loop:
+    "{{ packages_utils }}"
+
+- name: Start/Enable vmtoolsd
+  service: 
+    name: vmtoolsd
+    state: started
+    enabled: yes
+

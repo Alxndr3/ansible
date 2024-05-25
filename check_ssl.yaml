@@ -1,0 +1,8 @@
+---
+- hosts: all
+  vars: 
+    url: url
+  tasks:
+    - name: Checando SSL
+      shell: sh /home/awx/scripts/check_ssl.sh {{url}}
+      debug:

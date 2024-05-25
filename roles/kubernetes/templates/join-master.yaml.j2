@@ -1,0 +1,52 @@
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: JoinConfiguration
+discovery:
+  bootstrapToken:
+    apiServerEndpoint: {{ kube_proxy }}:6443
+    token: {{ bootstrap_token }}
+    unsafeSkipCAVerification: true
+  tlsBootstrapToken: {{ bootstrap_token }}
+  timeout: 5m0s
+controlPlane:
+  certificateKey: {{ certificate_key }}
+nodeRegistration:
+  criSocket: unix:///var/run/containerd/containerd.sock
+  name: {{ ansible_facts.hostname }}
+  advertiseAddress: {{ inventory_hostname }}
+  taints: null
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+clusterName: {{ cluster_name }}
+controlPlaneEndpoint: {{ kube_proxy }}:6443
+imageRemycompanytory: registry.k8s.io
+networking:
+  dnsDomain: cluster.local
+  serviceSubnet: 172.16.0.0/16
+apiServer:
+  extraArgs:
+    authorization-mode: Node,RBAC
+    cloud-config: /etc/kubernetes/.vsphere.conf
+    cloud-provider: vsphere
+  extraVolumes:
+  - hostPath: /etc/kubernetes/.vsphere.conf
+    mountPath: /etc/kubernetes/.vsphere.conf
+    name: cloud
+  timeoutForControlPlane: 4m0s
+controllerManager:
+  extraArgs:
+    cloud-config: /etc/kubernetes/.vsphere.conf
+    cloud-provider: vsphere
+  extraVolumes:
+  - hostPath: /etc/kubernetes/.vsphere.conf
+    mountPath: /etc/kubernetes/.vsphere.conf
+    name: cloud
+dns: {}
+certificatesDir: /etc/kubernetes/pki
+etcd:
+  local:
+    dataDir: /var/lib/etcd
+---
+kind: KubeletConfiguration
+apiVersion: kubelet.config.k8s.io/v1beta1
+cgroupDriver: systemd

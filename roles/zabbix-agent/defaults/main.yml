@@ -1,0 +1,14 @@
+---
+# defaults file for zabbix-agent
+debian9_installer: "zabbix-agent2_5.4.1-1+debian9_amd64.deb"
+debian10_installer: "zabbix-agent2_5.4.1-1+debian10_amd64.deb"
+debian11_installer: "zabbix-agent2_5.4.4-1+debian11_amd64.deb"
+debian12_installer: "zabbix-agent2_5.4.4-1+debian11_amd64.deb"
+ubuntu1604_installer: "zabbix-agent_5.0.9-1+xenial_amd64.deb"
+ubuntu1804_installer: "zabbix-agent2_5.4.1-1+ubuntu18.04_amd64.deb"
+ubuntu2004_installer: "zabbix-agent2_5.4.1-1+ubuntu20.04_amd64.deb"
+rhel6_installer: "zabbix-agent2-5.4.1-1.el6.x86_64.rpm"
+rhel7_installer: "zabbix-agent2-5.0.9-1.el7.x86_64.rpm"
+rhel8_installer: "zabbix-agent2-5.0.9-1.el8.x86_64.rpm"
+zabbix_conf: "zabbix_agent2.conf"
+

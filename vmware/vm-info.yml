@@ -1,0 +1,26 @@
+---
+- name: Stop Vsphere Virtual Machine
+  hosts: localhost
+  become: false
+  gather_facts: false
+  collections:
+    - community.vmware
+  pre_tasks:
+    - include_vars: vars_ntnx.yml
+  tasks:
+    - name: Guest Get Info
+      vmware_guest_info:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        datacenter: "{{ datacenter_name }}"
+        folder: "/{{ datacenter_name }}"
+        validate_certs: "{{ vcenter_validate_certs }}" 
+        name: "{{ item }}"
+        tags: true
+      register: tag_info
+      ignore_errors: true
+      loop: "{{ guest_name }}"
+
+    - debug:
+        var: tag_info.results[0].instance

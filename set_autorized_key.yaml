@@ -1,0 +1,13 @@
+---
+- name: Set Authorized Key
+  hosts: all
+  become: yes
+  vars:
+    username: "inframycompanytec"
+    homedir: "/home/alexandre/.ssh/id_rsa.pub"
+  tasks:
+    - name: Set authorized key taken from file
+      ansible.mycompanyx.authorized_key:
+        user: "{{ username }}"
+        state: present
+        key: "{{ lookup('file', '{{ homedir }}') }}"

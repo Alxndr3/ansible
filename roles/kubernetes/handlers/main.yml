@@ -1,0 +1,10 @@
+---
+# handlers file for kubernetes
+- name: restart kubelet
+  service: 
+    name: kubelet
+    tate: restarted
+
+- name: systemctl daemon-reload
+  systemd:
+    daemon-reload: true

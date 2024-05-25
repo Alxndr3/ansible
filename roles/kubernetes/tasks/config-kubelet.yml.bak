@@ -1,0 +1,35 @@
+
+- name: Set Kubelet service to work with VSphere Cloud Provider.
+  lineinfile:
+    path: /lib/systemd/system/kubelet.service.d/10-kubeadm.conf
+    regexp: "^ExecStart=/usr/bin/kubelet"
+    line: "ExecStart=/usr/bin/kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_CONFIG_ARGS $KUBELET_KUBEADM_ARGS $KUBELET_EXTRA_ARGS --cloud-provider=vsphere --cloud-config=/etc/kubernetes/.vsphere.conf"
+    state: present
+    backup: yes
+
+- name: Add conf for VSphere Cloud Provider Connection
+  blockinfile:
+    path: "/etc/kubernetes/.vsphere.conf"
+    block: |
+          [Global]
+          user = "{{ vsphere_user }}"
+          password = "{{ vsphere_password }}"
+          port = "443"
+          insecure-flag = "1"
+
+          [VirtualCenter "{{ virtual_center }}"]
+          datacenters = "DC-MYCOMPANY-JB"
+
+          [Workspace]
+          server = "ntnxvcenter.mycompany.corp"
+          datacenter = "DC-MYCOMPANY-JB" 
+          default-datastore = "CONTAINER01-COMP"
+          resourcepool-path = "MYCOMPANY-NTNX/Resources"
+          folder = "KUBERNETES"
+
+          [Disk]
+          scsicontrollertype = pvscsi
+
+- name: Run systemctl daemon-reload.
+  systemd:
+    daemon-reload: true

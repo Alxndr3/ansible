@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    #service_name: "zabbix-agent[*]"
+    service_name: "zabbix-agent"
+
+  tasks:
+    - name: "Start service Zabbix CentOS"
+      service:
+        name: "{{ service_name }}"
+        enabled: yes
+        state: restarted
+      when: ansible_facts['os_family'] == "RedHat"
+
+    - name: "Start service Zabbix Debian"
+      service:
+        name: "{{ service_name }}"
+        enabled: yes
+        state: restarted
+      when: ansible_facts['os_family'] == "Debian"
+

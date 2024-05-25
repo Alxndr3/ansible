@@ -1,0 +1,34 @@
+- name: Increase memory of virtual machine
+  hosts: all
+  gather_facts: no
+  collections:
+    - community.vmware
+  pre_tasks:
+    - include_vars: vars_ntnx.yml
+  vars:
+    vm_name: CJBLVZIONILHEUS
+    memory_size_mb: 6144
+  tasks:
+    - name: Get virtual machine facts
+      vmware_guest_info:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        datacenter: "{{ datacenter_name }}"
+        folder: "/{{ datacenter_name }}"
+        validate_certs: false
+        name: "{{ vm_name }}"
+      register: vm_facts
+
+    - name: "Increase virtual machine memory"
+      vmware_guest_memory:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        datacenter: "{{ datacenter_name }}"
+        folder: "/{{ datacenter_name }}"
+        validate_certs: false
+        name: "{{ vm_name }}"
+        memory_mb: "{{ memory_size_mb }}"
+        state: present
+      when: vm_facts.guest_disk_info is defined

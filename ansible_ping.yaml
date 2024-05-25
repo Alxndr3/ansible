@@ -1,0 +1,8 @@
+---
+- name: "Ansible Ping"
+  hosts: all
+  become: false
+
+  tasks:
+  - name: "SSH Connectivity Test"
+    ansible.builtin.ping:

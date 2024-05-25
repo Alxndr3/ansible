@@ -1,0 +1,18 @@
+[Global]
+user = "{{ vsphere_user }}"
+password = "{{ vsphere_password }}"
+port = "443"
+insecure-flag = "1"
+
+[VirtualCenter "{{ virtual_center }}"]
+datacenters = "DC-MYCOMPANY-JB"
+
+[Workspace]
+server = "{{ virtual_center }}"
+datacenter = "DC-MYCOMPANY-JB"
+default-datastore = "CONTAINER01-COMP"
+resourcepool-path = "MYCOMPANY-NTNX/Resources"
+folder = "KUBERNETES"
+
+[Disk]
+scsicontrollertype = pvscsi

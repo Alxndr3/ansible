@@ -1,0 +1,7 @@
+---
+- name: Ensure ssh password authentication is allowed
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication '
+    line: 'PasswordAuthentication yes'
+  when: (ansible_facts['os_family'] == "Debian")

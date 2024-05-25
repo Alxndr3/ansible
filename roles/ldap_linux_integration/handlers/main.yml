@@ -1,0 +1,7 @@
+---
+# handlers file for ldap_linux_integration
+- name: Start/Enable sssd
+  service: 
+    name: sssd
+    state: started
+    enabled: yes

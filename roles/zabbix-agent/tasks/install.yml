@@ -1,0 +1,65 @@
+---
+- name: "Install Zabbix agent Debian 9"
+  apt: 
+    deb: "/tmp/{{ debian9_installer }}"
+  when: (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "9")
+
+- name: "Install Zabbix agent Debian 10"
+  apt:
+    deb: "/tmp/{{ debian10_installer }}"
+  when: (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "10")
+
+- name: "Install Zabbix agent Debian 11"
+  apt:
+    deb: "/tmp/{{ debian11_installer }}"
+  when: (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "11")
+
+- name: "Install Zabbix agent Debian 12"
+  apt:
+    name: zabbix-agent2
+    state: present
+  when: (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "12")
+
+- name: "Install Zabbix agent Ubuntu 16.04"
+  apt:
+    deb: "/tmp/ubuntu1604_installer }}"
+  when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "16")
+
+- name: "Install Zabbix agent Ubuntu 18.04"
+  apt:
+    deb: "/tmp/{{ ubuntu1804_installer }}"
+  when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "18")
+
+- name: "Install Zabbix agent Ubuntu 20.04"
+  apt:
+    deb: "/tmp/{{ ubuntu2004_installer }}"
+  when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20")
+
+- name: "Install Zabbix agent CentosOS 6"
+  yum: 
+    disable_gpg_check: yes
+    name: "/tmp/{{ rhel6_installer }}"
+    state: present
+    lock_timeout: 180
+  when: (ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "6")
+
+- name: "Install Zabbix agent on CentOS 7"
+  yum: 
+    disable_gpg_check: yes
+    name: "/tmp/{{ rhel7_installer }}"
+    state: present
+  when: (ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "7")
+
+- name: "Install Zabbix agent Rocky and Oracle Linux 8"
+  yum: 
+    disable_gpg_check: yes
+    name: "/tmp/{{ rhel8_installer }}"
+    state: present
+  when: (ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "8")
+
+- name: "Install Zabbix agent Rocky 9"
+  yum: 
+    disable_gpg_check: yes
+    name: "/tmp/{{ rhel8_installer }}"
+    state: present
+  when: (ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "9")

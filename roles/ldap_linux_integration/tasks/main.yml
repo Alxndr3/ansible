@@ -1,0 +1,8 @@
+---
+# tasks file for ldap_linux_integration
+- import_tasks: install_dependencies.yml
+- import_tasks: integration_setup.yml
+- import_tasks: transfer_config_files.yml
+- import_tasks: sudoers_setup.yml
+- import_tasks: config_sshd.yml
+- import_tasks: services_restart.yml

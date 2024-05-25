@@ -1,0 +1,376 @@
+[prd120]
+10.20.120.2
+10.20.120.3
+10.20.120.9 # linvpostgresprd10
+10.20.120.16
+10.20.120.19
+10.20.120.27
+10.20.120.31
+10.20.120.32
+10.20.120.36 # linviplanning-mao centos8
+10.20.120.76 # linvoraprd11 oraclelinux6 # linvoraprd11 oracleLinux6.10
+10.20.120.96 # linvliquibase centos8
+10.20.120.111
+10.20.120.117 # linvsiemlog2
+10.20.120.128 # linvmantis02p # ubuntu14.04
+10.20.120.127 # linvoraprd14 # oracle6.10
+10.20.120.129 # linvmonit centos6
+10.20.120.132
+10.20.120.134 # linvrmd01p ubuntu14.04
+10.20.120.139
+10.20.120.147 # linvbiweb centos6
+# 10.20.120.153 # 011aqa006 powerdoff
+10.20.120.154 # 011web506 debian7
+# 10.20.120.199 # linvgpp01p debian7
+10.20.120.120
+10.20.120.132
+10.20.120.134 # linvrmd01p ubuntu14.04
+10.20.120.139
+10.20.120.144
+10.20.120.145
+linvbiweb ansible_host=10.20.120.147 # centos6
+# 10.20.120.184 # linvsvn01 debian7
+10.20.120.206
+10.20.120.220
+10.20.120.232
+10.20.120.250
+
+[prd121]
+10.20.121.15
+10.20.121.19
+10.20.121.21 # linvk8sproxy1
+10.20.121.22 # linvk8sproxy2
+10.20.121.23 # linvk8smst1
+10.20.121.24 # linvk8smst2
+10.20.121.25 # linvk8smst3
+10.20.121.30
+10.20.121.31
+10.20.121.32
+10.20.121.37 # linvoraprd
+10.20.121.52
+10.20.121.36
+10.20.121.42
+10.20.121.43
+10.20.121.44
+10.20.121.45
+10.20.121.46
+10.20.121.47 # linvcomodoshielresolver1
+10.20.121.48 # linvcmc
+10.20.121.49 # linvcomodoshielresolver1
+10.20.121.50
+10.20.121.53 # linvk8swkr1
+10.20.121.54 # linvk8swkr2
+10.20.121.55 # linvk8swkr3
+10.20.121.56 # linvk8sstore
+10.20.121.60 # linvglusterfs01-prd
+10.20.121.61 # linvglusterfs02-prd
+10.20.121.62 # linvglusterfs03-prd
+10.20.121.63 # linvglusterfs04-prd
+10.20.121.64 # linvswarmanager01-prd
+10.20.121.65 # linvswarmanager02-prd
+10.20.121.66 # linvswarmworker04-prd
+10.20.121.67 # linvswarmworker01-prd
+10.20.121.68 # linvswarmworker02-prd
+10.20.121.69 # linvswarmworker03-prd
+10.20.121.70
+10.20.121.71
+# 10.20.121.72
+10.20.121.91
+10.20.121.93
+10.20.121.94
+10.20.121.95
+10.20.121.100
+# 10.20.121.101 # linvsiempot
+10.20.121.102
+10.20.121.109
+10.20.121.117
+10.20.121.123
+10.20.121.126
+10.20.121.128
+10.20.121.129
+10.20.121.130
+10.20.121.139 # linvmariadbprd10
+10.20.121.142 # linvoraprd10
+10.20.121.143
+10.20.121.147
+10.20.121.148
+10.20.121.152
+10.20.121.153
+10.20.121.155 # linvmycompanylic
+# 10.20.121.158 # VMware Disaster Recovery Virtual Appliance
+10.20.121.159 # linvproxyveeamprd3
+10.20.121.162 # linvproxyveeamprd2
+10.20.121.168 # linvremycompanyt
+10.20.121.170
+10.20.121.171
+10.20.121.172
+10.20.121.173
+10.20.121.174
+10.20.121.176
+10.20.121.179
+10.20.121.181
+10.20.121.182
+10.20.121.183 # linvredmine
+10.20.121.184
+10.20.121.185
+10.20.121.186
+10.20.121.193
+10.20.121.194
+10.20.121.197 # linvgrafana
+10.20.121.198
+10.20.121.199 # linvmariadbprd20
+10.20.121.209
+10.20.121.211
+10.20.121.212 # linvpostgresprd13
+10.20.121.216
+10.20.121.217
+10.20.121.218
+10.20.121.222
+10.20.121.224 # Tenable Core + Nessus
+# 10.20.121.225 - Tenable Core + WAS
+10.20.121.229 # linvrepodtcbkp
+10.20.121.235
+10.20.121.243
+10.20.121.252
+
+[prd124]
+10.20.124.201
+10.20.124.202
+10.20.124.203
+10.20.124.204
+10.20.124.205
+
+[prd125]
+10.20.125.71 # linvproxyveeam-ntx1
+10.20.125.72 # linvproxyveeam-ntx2
+10.20.125.73 # linvproxyveeam-ntx3
+10.20.125.74 # linvproxyveeam-ntx4
+10.20.125.75 # linvproxyveeam-ntx5
+10.20.125.76 # linvproxyveeam-db-b
+10.20.125.251 # ntnx-10-20-125-251-a-pcvm
+
+[qa]
+10.20.130.2
+10.20.130.3
+10.20.130.8
+10.20.130.9
+10.20.130.10
+10.20.130.11
+10.20.130.12
+10.20.130.13
+10.20.130.16
+10.20.130.17
+10.20.130.18
+10.20.130.19
+10.20.130.21
+10.20.130.26
+10.20.130.27
+10.20.130.29
+10.20.130.30
+10.20.130.31
+10.20.130.32
+10.20.130.35
+10.20.130.33
+10.20.130.36
+10.20.130.37
+10.20.130.40
+10.20.130.42
+10.20.130.46
+10.20.130.47
+10.20.130.49 # linvmariadbqa30
+10.20.130.50 # linvoraqa30
+10.20.130.52 # linviplanning-dev
+10.20.130.58 # linvk8sstore-qa
+10.20.130.69
+10.20.130.70 # linvalfrescod-qa
+# 10.20.130.73 # 011ora552 rhel5.5
+10.20.130.75 # linvgpt-dev
+10.20.130.111
+10.20.130.112
+10.20.130.115
+10.20.130.116
+10.20.130.212 # linvswarm01-qa
+10.20.130.213 # linvswarm02-qa
+10.20.130.214 # linvswarm03-qa
+10.20.130.220 # linvswarmworker04-qa
+10.20.130.141
+10.20.130.147 # linvmycompanylic-qa
+10.20.130.153
+# 10.20.130.154 # linvpostgresqa centos8
+10.20.130.155
+10.20.130.168 # linvlabhaproxy1-qa
+linvlabhaproxy2-qa ansible_host=10.20.130.169
+10.20.130.172
+10.20.130.175
+10.20.130.176
+10.20.130.184
+10.20.130.190
+10.20.130.191
+linvlogstash01-qa ansible_host=10.20.130.192
+10.20.130.199
+10.20.130.208
+10.20.130.209
+10.20.130.210
+10.20.130.211
+10.20.130.213
+10.20.130.216
+10.20.130.228 # node-elasticsearch-qa # 
+10.20.130.239 # linvoramon
+10.20.130.234
+10.20.130.235 # linvmycompanyurnas-qa
+10.20.130.240
+10.20.130.243 # ora501clone
+10.20.130.244 # netbox-qa
+10.20.130.248
+10.20.130.240
+10.20.130.208 # linvglusterfs01-qa
+10.20.130.209 # linvglusterfs02-qa
+10.20.130.210 # linvglusterfs03-qa
+10.20.130.211 # linvglusterfs04-qa
+10.20.130.212 # linvswarmanager01-qa
+10.20.130.213 # linvswarmanager02-qa
+10.20.130.217 # linvswarmworker01-qa
+10.20.130.218 # linvswarmworker02-qa
+10.20.130.219 # linvswarmworker03-qa
+10.20.130.220 # linvswarmworker04-qa
+10.20.132.35
+
+[lin]
+10.55.120.45
+10.55.120.51
+10.55.120.52
+10.55.120.53
+10.55.120.63
+10.55.120.65
+10.55.120.75 # linvconfigurator
+10.55.120.248
+
+[mao]
+10.70.120.13
+10.70.120.21
+10.70.120.22 # linvdocker
+10.70.120.23 # linlvdomeserver1
+10.70.120.41
+10.70.120.42
+10.70.120.48
+10.70.120.52
+10.70.120.54 # linvmiicups
+10.70.120.60 # linvglusterfs07-prd
+10.70.120.61 # linvglusterfs08-prd
+10.70.120.62 # linvglusterfs09-prd
+10.70.120.63 # linvswarmanager07-prd
+10.70.120.64 # linvswarmanager08-prd
+10.70.120.66 # linvswarmworker07-prd
+10.70.120.68 # linvswarmworker08-prd
+10.70.120.69 # linvswarmworker09-prd
+10.70.120.115 # linvpostgresqa30
+10.70.120.215 # linvcallhome
+10.70.120.155 # linvzabbix-proxy-prd
+10.70.120.170 # linvpostgreprd12
+10.70.120.181 # linvk8sproxy1-qa
+10.70.120.182 # linvk8sproxy2-qa
+10.70.120.189 # linvk8sstore-qa
+10.70.120.206
+10.70.120.207
+10.70.120.239
+
+[k8sprd]
+10.20.121.23
+10.20.121.24
+10.20.121.25
+10.20.121.53 # linvk8swkr1
+10.20.121.54 # linvk8swkr2
+10.20.121.55 # linvk8swkr3
+
+[maok8sqa]
+10.70.120.183 # linvk8smst1-qa
+10.70.120.184 # linvk8smst2-qa
+10.70.120.185 # linvk8smst3-qa
+10.70.120.186 # linvk8swkr1-qa
+10.70.120.187 # linvk8swkr2-qa
+10.70.120.188 # linvk8swkr3-qa
+[lin]
+10.70.120.100
+10.70.120.101
+10.70.120.102
+
+[ios]
+10.65.120.60
+10.65.120.61
+10.65.120.65
+10.65.120.70 # linvglusterfs05-prd
+10.65.120.71 # linvglusterfs06-prd
+10.65.120.72 # linvglusterfs07-prd
+10.65.120.75 # linvswarmanager05-prd
+10.65.120.76 # linvswarmanager06-prd
+10.65.120.77 # linvswarmworker05-prd
+10.65.120.78 # linvswarmworker06-prd
+10.65.120.79 # linvswarmworker07-prd
+10.65.120.221 # linvglusterfs05-qa
+10.65.120.222 # linvglusterfs06-qa
+10.65.120.212 # lhlvswarmanager03-qa
+10.65.120.217 # linvswarmworker05-qa
+10.65.120.218 # linvswarmworker06-qa
+
+[lab]
+192.168.56.106
+192.168.56.107
+
+[urnas]
+10.20.150.10 ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p inframycompanytec@10.20.121.30"'
+10.20.150.11 ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p inframycompanytec@10.20.121.30"'
+10.20.150.12 ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p inframycompanytec@10.20.121.30"'
+10.20.150.13 ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p inframycompanytec@10.20.121.30"'
+10.20.150.14 ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p inframycompanytec@10.20.121.30"'
+10.20.150.15 ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p inframycompanytec@10.20.121.30"'
+10.20.150.17 ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p inframycompanytec@10.20.121.30"'
+10.20.153.10 ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p inframycompanytec@10.20.121.30"'
+10.20.156.10 ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p inframycompanytec@10.20.121.30"'
+
+[k8sqa]
+10.20.130.30
+10.20.130.31
+10.20.130.32
+10.20.130.38
+10.20.130.53
+10.20.130.57
+
+[kms]
+10.20.155.20 ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p inframycompanytec@10.20.121.30"'
+10.20.155.21 ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p inframycompanytec@10.20.121.30"'
+10.20.155.22 ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p inframycompanytec@10.20.121.30"'
+
+[openshiftcwb]
+10.20.129.10 # linvocpbastion
+10.20.129.14 # linvocpproxy1
+10.20.129.10 # linvocpproxy2
+10.20.129.16 # linvocpstore
+
+[openshiftmao]
+10.70.129.10 # linvocpbastion
+10.70.129.14 # linvocpproxy1
+10.70.129.15 # linvocpproxy2
+
+[sp]
+10.80.120.61
+10.81.120.62
+# 10.81.120.226 # spolvhopoprd05
+
+[outros]
+172.21.16.240
+[all:children]
+lin
+ios
+kms
+k8sprd
+k8sqa
+lab
+mao
+maok8sqa
+openshiftcwb
+openshiftmao
+prd120
+prd121
+qa
+sp
+urnas

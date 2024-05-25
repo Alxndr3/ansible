@@ -1,0 +1,30 @@
+---
+# defaults file for kubernetes
+packages_utils:
+  - epel-release
+  - python3-dnf-plugin-versionlock
+  - wget
+  - vim
+  - open-vm-tools
+  - bash-completion
+  - python3
+  - net-tools
+  - yum-utils
+  - iproute-tc
+
+packages_k8s:
+  - kubelet
+  - kubeadm
+  - kubectl
+
+containerd: containerd
+
+calico_url: https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
+
+vsphere_user: "k8s-vcp@company.sso"
+vsphere_password: "minha_senha123*"
+virtual_center: "ntnxvcenter.company.corp"
+
+kube_proxy: "linvk8sproxy.company.corp"
+cluster_name: "k8scluster1"
+kubectl_user: mylinuxuser 

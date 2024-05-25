@@ -1,0 +1,8 @@
+---
+- name: "Copy .conf file"
+  copy:
+    src: "{{ zabbix_conf }}"
+    dest: "/etc/zabbix/{{ zabbix_conf }}"
+
+  notify: restart zabbix-agent
+

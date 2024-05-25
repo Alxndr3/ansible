@@ -1,0 +1,6 @@
+---
+# tasks file for zabbix-agent
+#
+- import_tasks: copy_installer.yml
+- import_tasks: install.yml
+- import_tasks: copy_config.yml

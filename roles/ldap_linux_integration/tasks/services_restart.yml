@@ -1,0 +1,12 @@
+---
+- name: Start/Enable sssd service
+  service:
+    name: sssd
+    state: started
+    enabled: true
+
+- name: Restart service ssh
+  service:
+    name: sshd
+    state: restarted
+  when: (ansible_facts['os_family'] == "Debian")

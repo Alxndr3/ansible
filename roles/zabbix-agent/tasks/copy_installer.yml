@@ -1,0 +1,59 @@
+- name: "Copy installer packages to Debian 9"
+  copy:
+    src: "{{ debian9_installer }}"
+    dest: "/tmp/{{ debian9_installer }}"
+  when: ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "9"
+
+- name: "Copy installer packages to Debian 10"
+  copy:
+    src: "{{ debian10_installer }}"
+    dest: "/tmp/{{ debian10_installer }}"
+  when: ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "10"
+
+- name: "Copy installer packages to Debian 11"
+  copy:
+    src: "{{ debian11_installer }}"
+    dest: "/tmp/{{ debian11_installer }}"
+  when: ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "11"
+
+- name: "Copy installer packages on Ubuntu 16.04"
+  copy:
+    src: "{{ ubuntu1604_installer }}"
+    dest: "/tmp/{{ ubuntu1604_installer }}"
+  when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "16"
+
+- name: "Copy installer packages on Ubuntu 18.04"
+  copy:
+    src: "{{ ubuntu1804_installer }}"
+    dest: "/tmp/{{ ubuntu1804_installer }}"
+  when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "18"
+
+- name: "Copy installer packages on Ubuntu 20.04"
+  copy:
+    src: "{{ ubuntu2004_installer }}"
+    dest: "/tmp/{{ ubuntu2004_installer }}" 
+  when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20"
+
+- name: "Copy installer packages to CentOS 6"
+  copy:
+    src: "{{ rhel6_installer }}"
+    dest: "/tmp/{{ rhel6_installer }}"
+  when: ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "6"
+
+- name: "Copy installer packages to CentOS 7"
+  copy:
+    src: "{{ rhel7_installer }}"
+    dest: "/tmp/{{ rhel7_installer }}"
+  when: ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "7"
+
+- name: "Copy installer packages to Rocky Linux"
+  copy:
+    src: "{{ rhel8_installer }}"
+    dest: "/tmp/{{ rhel8_installer }}"
+  when: ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "8"
+
+- name: "Copy installer packages to Rocky Linux 9"
+  copy:
+    src: "{{ rhel8_installer }}"
+    dest: "/tmp/{{ rhel8_installer }}"
+  when: ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "9"

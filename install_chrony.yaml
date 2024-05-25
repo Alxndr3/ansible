@@ -1,0 +1,23 @@
+---
+- name: Install chrony
+  hosts: all
+  become: yes
+  tasks:
+
+    - name: Install chrony on Red Hat like systems
+      yum: 
+        name: chrony 
+        state: present
+      when: (ansible_facts['os_family'] == "RedHat")
+
+    - name: Install chrony on Debian systems
+      apt:
+        name: chrony
+        state: present
+      when: (ansible_facts['os_family'] == "Debian")
+
+    - name: Start/Enable servide
+      service: 
+        name: chronyd 
+        state: started
+        enabled: yes

@@ -1,0 +1,24 @@
+---
+- name: "Instkms Sien Rapid7 Agent"
+  hosts: all
+  become: true
+  gather_facts: false
+  vars:
+    instkmser_l: "./siem_rapid7/"
+    instkmser_r: "/tmp/agent_installer.sh"
+
+  tasks:
+  - name: "Copy instkmser"
+    ansible.builtin.copy:
+      src: "{{ instkmser_l }}"
+      dest: /tmp
+        
+  - name: Change file ownership, group and permissions
+    ansible.builtin.file:
+      path: "{{ instkmser_r }}"
+      owner: root
+      group: root
+      mode: '0755'
+
+  - name: "Instkms Agent"
+    command: "{{ instkmser_r }} install_start"

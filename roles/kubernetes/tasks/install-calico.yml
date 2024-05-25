@@ -1,0 +1,18 @@
+---
+#name: Download and Install Calico CNI
+#shell: curl "{{ calico_url }}" -O > ~/calico.yaml && kubectl apply -f ~/calico.yaml
+
+- name: Download calico CNI
+  get_url:
+    url: "{{ calico_url }}"
+    dest: /tmp/calico.yaml
+  when: inventory_hostname in groups['controlplane']
+  tags: 
+    - calico
+
+- name: Install CNI
+  become: yes
+  shell: kubectl apply -f /tmp/calico.yaml
+  when: inventory_hostname in groups['controlplane']
+  tags: 
+    - calico

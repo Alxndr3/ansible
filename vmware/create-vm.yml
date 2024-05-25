@@ -1,0 +1,74 @@
+---
+- name: Install Rocky Linux 8.7 on VMware ESXi
+  hosts: localhost
+  gather_facts: no
+
+  vars:
+    esxi_host: "ntnxvcenter.mycompany.corp"
+    esxi_user: "a60803@mycompany.corp"
+    esxi_password: "minha_senha123"
+    datacenter_name: "DC-MYCOMPANY-JB"
+    vm_name: "ROCKY-NEW"
+    vm_network: "PROD-VLAN800"
+    vm_username: "inframycompanytec"
+    vm_password: "minha_senha123"
+    vcenter_validate_certs: false
+    iso: "/vmfs/volumes/1ec179c6-3273fa5d/ISO/rocky/Rocky-8.7-x86_64-minimal.iso"
+
+  tasks:
+    - name: Create VMware ESXi virtual machine
+      vmware_guest:
+        hostname: "{{ esxi_host }}"
+        username: "{{ esxi_user }}"
+        password: "{{ esxi_password }}"
+        name: "{{ vm_name }}"
+        validate_certs: "{{ vcenter_validate_certs }}" 
+        folder: "/{{ datacenter_name }}"
+        state: poweredoff
+        hardware:
+          memory_mb: 4096
+          num_cpus: 2
+          scsi: paravirtual
+        networks:
+          - name: "{{ vm_network }}"
+        cdrom:
+          type: "iso"
+          iso_path: "{{ iso }}"
+      register: vm
+
+      #    - name: Power on virtual machine
+      #      vmware_guest_powerstate:
+      #        hostname: "{{ esxi_host }}"
+      #        username: "{{ esxi_user }}"
+      #        password: "{{ esxi_password }}"
+      #        name: "{{ vm_name }}"
+      #        state: poweredon
+      #
+      #    - name: Wait for VM to boot up
+      #      wait_for:
+      #        host: "{{ vm.guest.ipAddress }}"
+      #        port: 22
+      #        delay: 10
+      #        timeout: 600
+      #
+      #    - name: Install Ubuntu 20.04
+      #      become: yes
+      #      become_method: sudo
+      #      community.general.vmware_guest_tools_wait:
+      #        hostname: "{{ vm.guest.ipAddress }}"
+      #        username: "{{ vm_username }}"
+      #        password: "{{ vm_password }}"
+      #        validate_certs: no
+      #        state: present
+      #      register: tools
+      #
+      #    - name: Reboot VM
+      #      vmware_guest_powerstate:
+      #        hostname: "{{ esxi_host }}"
+      #        username: "{{ esxi_user }}"
+      #        password: "{{ esxi_password }}"
+      #        name: "{{ vm_name }}"
+      #        state: reset
+      #      when: tools.changed
+      #
+      #

@@ -1,0 +1,14 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+10.20.121.20 linvk8sproxy linvk8sproxy.mycompany.corp
+10.20.121.21 linvk8sproxy1 linvk8sproxy1.mycompany.corp
+10.20.121.22 linvk8sproxy2 linvk8sproxy2.mycompany.corp
+10.20.121.23 linvk8smst1   linvk8smst1.mycompany.corp
+10.20.121.24 linvk8smst2   linvk8smst2.mycompany.corp
+10.20.121.25 linvk8smst3   linvk8smst3.mycompany.corp
+10.20.121.53 linvk8swkr1   linvk8swkr1.mycompany.corp
+10.20.121.54 linvk8swkr2   linvk8swkr2.mycompany.corp
+10.20.121.55 linvk8swkr3   linvk8swkr3.mycompany.corp
+10.20.121.56 linvk8sstore  linvk8sstore.mycompany.corp
+

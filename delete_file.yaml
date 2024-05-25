@@ -1,0 +1,6 @@
+---
+- hosts: failed
+  become: yes
+  tasks:
+    - name: "Delete /etc/tenable_tag"
+      ansible.builtin.shell: rm /etc/tenable_tag

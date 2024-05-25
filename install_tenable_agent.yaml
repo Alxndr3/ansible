@@ -1,0 +1,95 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    - centos6_installer : 'NessusAgent-10.0.1-es6.x86_64.rpm'
+    - centos7_installer : 'NessusAgent-10.0.1-es7.x86_64.rpm'
+    - centos8_installer : 'NessusAgent-10.0.1-es8.x86_64.rpm'
+    - rocky_installer : 'NessusAgent-10.0.1-es8.x86_64.rpm'
+    - installer : 'NessusAgent-10.0.1-debian6_amd64.deb'
+    - ubuntu_installer: 'NessusAgent-10.0.1-ubuntu1110_amd64.deb'
+
+  tasks:
+    - name: "Copy installer packages to Centos6"
+      ansible.builtin.copy:
+        src: tenable/{{ centos6_installer }}
+        dest: /tmp
+      when: ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "6"
+
+    - name: "Copy installer packages to Centos7"
+      ansible.builtin.copy:
+        src: tenable/{{ centos7_installer }}
+        dest: /tmp
+      when: ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "7"
+
+    - name: "Copy installer packages to Oracle Linux 8"
+      ansible.builtin.copy:
+        src: tenable/{{ centos8_installer }}
+        dest: /tmp
+      when: ansible_facts['distribution'] == "OracleLinux" and ansible_facts['distribution_major_version'] == "8"
+
+    - name: "Copy installer packages to Rocky Linux"
+      ansible.builtin.copy:
+        src: tenable/{{ rocky_installer }}
+        dest: /tmp
+      when: ansible_facts['distribution'] == "Rocky"
+
+    - name: "Copy installer packages to Debian"
+      ansible.builtin.copy:
+        src: tenable/{{ installer }}
+        dest: /tmp
+      when: ansible_facts['os_family'] == "Debian" 
+
+    - name: "Copy installer packages to Ubuntu"
+      ansible.builtin.copy:
+        src: tenable/{{ ubuntu_installer }}
+        dest: /tmp
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: "Install Tenable agent on CentOS 6"
+      yum: 
+        disable_gpg_check: yes
+        name: /tmp/{{ centos6_installer }}
+        state: present
+      when: ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution_major_version'] == "6"
+
+    - name: "Install Tenable agent on CentOS 7"
+      yum: 
+        disable_gpg_check: yes
+        name: /tmp/{{ centos7_installer }}
+        state: present
+      when: ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "7"
+
+    - name: "Install Tenable agent Oracle Linux 8"
+      yum: 
+        disable_gpg_check: yes
+        name: /tmp/NessusAgent-10.0.1-es8.x86_64.rpm
+        state: present
+      when: ansible_facts['distribution'] == "OracleLinux" and ansible_facts['distribution_major_version'] == "8"
+
+    - name: "Install Tenable agent Rocky 8"
+      yum: 
+        disable_gpg_check: yes
+        name: /tmp/{{ centos8_installer }}
+        state: present
+      when: ansible_facts['distribution'] == "Rocky"
+
+    - name: "Install Tenable agent Debian"
+      apt: 
+        deb: /tmp/{{ installer }}
+      when: ansible_facts['distribution'] == "Debian"
+
+    - name: "Install Tenable agent Ubuntu"
+      apt:
+        deb: /tmp/{{ ubuntu_installer }}
+      when: ansible_facts['distribution'] == "Ubuntu"
+
+    - name: "Start nessusagent service"
+      service:
+        name: nessusagent
+        enabled: true
+        state: restarted
+
+    - name: Link Agent to Nessus Manager
+      command: /opt/nessus_agent/sbin/nessuscli agent link --key=aa54da8173fc74f329b8b3372ac2e6866ce2a01f6d1df357864cb0768e32f206 --cloud
+      ignore_errors: yes

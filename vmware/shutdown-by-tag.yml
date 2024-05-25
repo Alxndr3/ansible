@@ -1,0 +1,26 @@
+---
+- name: Get VMs info
+  hosts: localhost
+  become: false
+  gather_facts: false
+
+  pre_tasks:
+    - include_vars: vars_ntnx.yml
+
+  tasks:
+    - name: Retrieve VM info
+      vmware_vm_info:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        folder: "/{{ datacenter_name }}/vm/KUBERNETES/LAB"
+        validate_certs: "{{ vcenter_validate_certs }}"
+        #vm_name: "{{ guest_name }}"
+        show_tag: true
+      register: vm_info
+
+    - debug:
+        var: item 
+        #var: vm_info.virtual_machines[0].tags[0].name
+      loop: "{{ vm_info.virtual_machines.guest_name }}"
+

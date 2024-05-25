@@ -1,0 +1,52 @@
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: JoinConfiguration
+discovery:
+  bootstrapToken:
+    apiServerEndpoint: linvk8sproxy-qa:6443
+    token: 3ut553.d7sbi7esp4peuiwa
+    unsafeSkipCAVerification: true
+  tlsBootstrapToken: 3ut553.d7sbi7esp4peuiwa
+  timeout: 5m0s
+controlPlane:
+  certificateKey: sha256:a905c4629f361d9ff722628421f41b90e3752d698bec2410c518395701f9b2e0
+nodeRegistration:
+  criSocket: unix:///var/run/containerd/containerd.sock
+  name: linvk8smst2-qa
+  taints: null
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+clusterName: mao-qa
+controlPlaneEndpoint: linvk8sproxy-qa:6443
+imageRemycompanytory: registry.k8s.io
+kubernetesVersion: 1.26.2
+networking:
+  dnsDomain: cluster.local
+  serviceSubnet: 172.16.0.0/16
+apiServer:
+  extraArgs:
+    authorization-mode: Node,RBAC
+    cloud-config: /etc/kubernetes/.vsphere.conf
+    cloud-provider: vsphere
+  extraVolumes:
+  - hostPath: /etc/kubernetes/.vsphere.conf
+    mountPath: /etc/kubernetes/.vsphere.conf
+    name: cloud
+  timeoutForControlPlane: 4m0s
+controllerManager:
+  extraArgs:
+    cloud-config: /etc/kubernetes/.vsphere.conf
+    cloud-provider: vsphere
+  extraVolumes:
+  - hostPath: /etc/kubernetes/.vsphere.conf
+    mountPath: /etc/kubernetes/.vsphere.conf
+    name: cloud
+dns: {}
+certificatesDir: /etc/kubernetes/pki
+etcd:
+  local:
+    dataDir: /var/lib/etcd
+---
+kind: KubeletConfiguration
+apiVersion: kubelet.config.k8s.io/v1beta1
+cgroupDriver: systemd

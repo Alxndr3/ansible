@@ -1,0 +1,27 @@
+---
+- name: "Update Zabbix Agent"
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: "Zabbix Agent Update on RedHad"
+      yum: 
+        disable_gpg_check: yes
+        name: zabbix*
+        state: latest
+        update_only: yes
+      when: (ansible_facts['os_family'] == "Redhat")
+
+  tasks:
+    - name: "Zabbix Agent Update on Debian"
+      apt: 
+        disable_gpg_check: yes
+        name: zabbix*
+        state: latest
+        update_only: yes
+      when: (ansible_facts['os_family'] == "Debian")
+
+
+
+
+

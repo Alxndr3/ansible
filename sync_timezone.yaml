@@ -1,0 +1,69 @@
+---
+- name: Sync time and timezone
+  hosts: all
+  become: yes
+  vars:
+    timezone: "America/Manaus"
+    ntp_server: "10.70.120.1"
+    app: "chrony"
+    service: "chronyd"
+
+  tasks:
+    - name: Set timezone
+      shell: "timedatectl set-timezone {{ timezone }}"
+
+    - name: apt update
+      shell: apt update
+      when: ansible_facts['os_family'] == "Debian"
+        
+    - name: Remove ntpd Debian
+      apt:
+        name: ntp
+        state: absent
+      when: ansible_facts['os_family'] == "Debian"
+        
+    - name: Remove ntpd RedHat
+      yum:
+        name: ntp
+        state: absent
+      when: ansible_facts['os_family'] == "RedHat"
+
+    - name: Install chrony Debian
+      apt:
+        name: "{{ app }}"
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+        
+    - name: Install chrony RedHat
+      yum:
+        name: "{{ app }}"
+        state: present
+        lock_timeout: 180
+      when: ansible_facts['os_family'] == "RedHat"
+
+    - name: Add ntp server Debian
+      shell: bash -c 'echo "server {{ ntp_server }} iburst prefer" >> /etc/chrony/chrony.conf'
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Add ntp server RedHat
+      shell: bash -c 'echo "server {{ ntp_server }} iburst prefer" >> /etc/chrony.conf'
+      when: ansible_facts['os_family'] == "RedHat"
+
+    - name: Edit conf
+      shell: sed 's/server 10.70.120.1 iburst prefer/ /g' /etc/chrony.conf
+      when: ansible_facts['os_family'] == "RedHat"
+
+    - name: Restart chrony service
+      service:
+        name: "{{ service }}"
+        state: restarted
+        enabled: yes
+
+    - name: Permit traffic in default zone for "{{ app }}" service.
+      ansible.mycompanyx.firewalld:
+        service: ntp
+        permanent: yes
+        state: enabled
+        immediate: true
+      when: ansible_facts['os_family'] == "RedHat"
+

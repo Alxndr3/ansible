@@ -1,0 +1,6 @@
+---
+- name: Set G_SEC_LINUX_ADMINS root priviledges
+  copy:
+    content: '%G_SEC_LINUX_ADMINS@mycompany.corp ALL=(ALL:ALL) ALL'
+    dest: /etc/sudoers.d/g_sec_linux_admins
+    mode: 0440

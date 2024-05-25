@@ -1,0 +1,55 @@
+---
+- name: "Add New User"
+  hosts: all
+  become: true
+  vars:
+    - user_name: 'mysusername'
+    - pass_word: 'minha_senha123'
+    - user_shell: '/bin/bash'
+    - pass_ex_min: 7
+    - pass_ex_max: 30
+    - expire_date: 4102459261 # 01/01/2100
+    - expire_date : '1704077940'
+    - group_deb: 'sudo'
+    - group_rhel: 'wheel'
+    - user_comment: 'instituto fpf'
+
+  tasks:
+    - name: "Create user in Red Hat Like"
+      ansible.builtin.user:
+        name: "{{ user_name }}"
+        password: "{{ pass_word | password_hash('sha512', 'mysalt') }}"
+        state: present
+        shell: "{{ user_shell }}"
+        groups:
+          - "{{ group_rhel }}"
+        system: false
+        create_home: true
+        home: "/home/{{ user_name }}"
+        password_expire_min: "{{ pass_ex_min }}"
+        #password_expire_max: "{{ pass_ex_max }}"
+        expires: "{{ expire_date }}"
+        comment: "{{ user_comment }}"
+      when: (ansible_facts['os_family'] == "RedHat")
+
+    - name: "Create user in Debian Like"
+      ansible.builtin.user:
+        name: "{{ user_name }}"
+        password: "{{ pass_word | password_hash('sha512', 'mysalt') }}"
+        state: present
+        shell: "{{ user_shell }}"
+        groups:
+          - "{{ group_deb }}"
+        system: false
+        create_home: true
+        home: "/home/{{ user_name }}"
+        password_expire_min: "{{ pass_ex_min }}"
+        password_expire_max: "{{ pass_ex_max }}"
+        expires: "{{ expire_date }}"
+        comment: "{{ user_comment }}"
+      when: (ansible_facts['os_family'] == "Debian")
+
+ #    - name: "Expire password"
+ #      ansible.builtin.shell:
+ #        cmd: "passwd -e {{ user_name }}"
+

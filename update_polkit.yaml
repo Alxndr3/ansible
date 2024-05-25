@@ -1,0 +1,24 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+
+    - name: "Polkit update CentOS 7"
+      yum: 
+        disable_gpg_check: yes
+        name: polkit*
+        state: latest
+        update_only: yes
+        lock_timeout: 180
+          #      when: (ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "7")
+
+    - name: "Poodle update CentOS 7"
+      yum: 
+        disable_gpg_check: yes
+        name: poodle*
+        state: latest
+        update_only: yes
+        lock_timeout: 180
+          #      when: (ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "7")
+

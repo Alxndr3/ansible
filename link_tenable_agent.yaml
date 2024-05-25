@@ -1,0 +1,12 @@
+---
+- hosts: failed
+  become: yes
+
+  tasks:
+    - name: Link Agent to Nessus Manager
+      command: /opt/nessus_agent/sbin/nessuscli agent link --key=aa54da8173fc74f329b8b3372ac2e6866ce2a01f6d1df357864cb0768e32f206 --cloud
+
+
+
+
+
